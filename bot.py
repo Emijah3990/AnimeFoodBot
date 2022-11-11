@@ -1,6 +1,10 @@
+import string
+
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
+
+import json, string
 
 TOKEN = '5324055764:AAEGTIrZUQJ-J3KBDtyoHk9_BQ1JUN2lLHg'
 
@@ -41,10 +45,12 @@ async def commands_start(message: types.Message):
 
 @dp.message_handler()
 async def echo_send(message: types.Message):
-    if message.text == 'Hello':
-        await message.answer('Hello to you too!')
-    else:
-        await message.answer(message.text)
+    if {i.lower().translate(str.maketrans('', '', string.punctuation)) for i in message.text.split(' ')}\
+        .intersection(set(json.load(open('forbidden_words/forbidden_words.json')))) != set():
+        await message.reply('Swearing is forbidden')
+        await message.delete()
+
+
 
 
 executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
