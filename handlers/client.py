@@ -2,12 +2,13 @@ from aiogram import types, Dispatcher
 
 from create_bot import dp, bot
 
+from keybuttons import b_client
 
 #@dp.message_handler(commands=['start', 'help'])
 async def commands_start(message: types.Message):
     try:
         # bot sends message to users personal chat
-        await bot.send_message(message.from_user.id, 'Hello, enjoy your meal!')
+        await bot.send_message(message.from_user.id, 'Hello, enjoy your meal!', reply_markup=b_client)
         await message.delete()
     except:
         await message.reply('talking to bot through the personal chat, text to him:\nhttps://t.me/AnimeFoodBot')
